@@ -10,6 +10,9 @@ namespace Projekt_I_P3
     {
         public List<Wydzial> Wydzialy = new List<Wydzial>();
         public int ID;
+        private static int licznik=0;
+
+        public Uczelnia() => ID = licznik++;
         public void dodajWydzial(string Nazwa)
         {
             Wydzialy.Add(new Wydzial(Nazwa));

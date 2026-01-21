@@ -23,6 +23,19 @@ namespace Projekt_I_P3
             this.walidator = walidator; 
             this.komunikaty = komunikaty; 
         }
+        private void Header(string s)
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"{s}\n");
+            Console.ResetColor();
+        }
+        private bool Potwierdz(string tresc)
+        {
+            Console.Write($"{tresc} [Y/N]: ");
+            string o = Console.ReadLine()?.ToLower();
+            return o == "y";
+        }
+
         public bool Update()
         {
             Console.Clear();
@@ -41,9 +54,7 @@ namespace Projekt_I_P3
         }
         public void MenuGlowne()
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("System Zarządzania Uczelnią\n");
-            Console.ResetColor();
+            Header("System Zarządzania Uczelnią");
             Console.WriteLine("[1]\tWydziały");
             Console.WriteLine("[2]\tKierunki");
             Console.WriteLine("[3]\tGrupy");
@@ -65,9 +76,7 @@ namespace Projekt_I_P3
         }
         public void Wydzialy()
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Wydziały Uczelni\n");
-            Console.ResetColor();
+            Header("Wydzdiały uczelni");
             Console.WriteLine("[1]\tLista wydziałów");
             Console.WriteLine("[2]\tDodaj wydział");
             Console.WriteLine("[3]\tUsuń wydział");
@@ -95,8 +104,7 @@ namespace Projekt_I_P3
                 case "3":
                     {
                         string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        Console.Write($"Czy napewno chcesz usunąć {w}? [Y/N]\n");
-                        if(Console.ReadLine()=="Y" || Console.ReadLine() == "y")
+                        if(Potwierdz($"Czy napewno chcesz usunąć {w}?"))
                             uczelnia.UsunWydzial(w);
                         break;
                     }
@@ -105,9 +113,7 @@ namespace Projekt_I_P3
         }
         public void Kierunek()
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Kierunki Uczelni\n");
-            Console.ResetColor();
+            Header("Kierunki");
             Console.WriteLine("[1]\tLista kierunków");
             Console.WriteLine("[2]\tLista kierunków z wydziału");
             Console.WriteLine("[3]\tDodaj kierunek");
@@ -148,8 +154,7 @@ namespace Projekt_I_P3
                     {
                         string w = uczelnia.walidator.Wprowadz_Wydzial();
                         string k = uczelnia.walidator.Wprowadz_Kierunek(w);
-                        Console.Write($"Czy napewno chcesz usunąć {k}? [Y/N]\n");
-                        if (Console.ReadLine() == "Y" || Console.ReadLine() == "y")
+                        if (Potwierdz($"Czy napewno chcesz usunąć {k}?"))
                             uczelnia.UsunKierunek(w,k);
                         break;
                     }
@@ -159,9 +164,7 @@ namespace Projekt_I_P3
         }
         public void Student()
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Studenci\n");
-            Console.ResetColor();
+            Header("Studenci");
             Console.WriteLine("[1]\tLista Studentów Kierunku");
             Console.WriteLine("[2]\tLista Studentów Grupy");
             Console.WriteLine("[3]\tDodaj Studenta");
@@ -218,8 +221,7 @@ namespace Projekt_I_P3
                         string w = uczelnia.walidator.Wprowadz_Wydzial();
                         string k = uczelnia.walidator.Wprowadz_Kierunek(w);
                         string g = uczelnia.walidator.Wprowadz_Grupe(w, k);
-                        Console.Write($"Czy napewno chcesz skreślić studenta {i} {n}? [Y/N]\n");
-                        if (Console.ReadLine() == "Y" || Console.ReadLine() == "y")
+                        if (Potwierdz($"Czy napewno chcesz skreślić studenta {i} {n}?"))
                             uczelnia.SkreslStudenta(w,k,g,i,n);
                         break;
                     }
@@ -274,9 +276,7 @@ namespace Projekt_I_P3
 
         public void Grupa()
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Grupy\n");
-            Console.ResetColor();
+            Header("Grupy");
             Console.WriteLine("[1]\tLista Grup (Drzewo)");
             Console.WriteLine("[2]\tLista Grup (Lista)");
             Console.WriteLine("[3]\tLista Grup Kierunku");
@@ -336,9 +336,7 @@ namespace Projekt_I_P3
         }
         public void Przedmiot()
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Przedmioty\n");
-            Console.ResetColor();
+            Header("Przedmioty");
             Console.WriteLine("[1]\tLista Przedmiotów (Drzewo)");
             Console.WriteLine("[2]\tLista Przedmiotów (Lista)");
             Console.WriteLine("[3]\tLista Przedmiotów Kierunku");
@@ -388,8 +386,7 @@ namespace Projekt_I_P3
                         string w = uczelnia.walidator.Wprowadz_Wydzial();
                         string k = uczelnia.walidator.Wprowadz_Kierunek(w);
                         string p = uczelnia.walidator.Wprowadz_Przedmiot(w, k);
-                        Console.Write($"Czy napewno chcesz usunąć {p}? [Y/N]\n");
-                        if (Console.ReadLine() == "Y" || Console.ReadLine() == "y")
+                        if (Potwierdz($"Czy napewno chcesz usunąć {p} dla kierunku {k}?"))
                             uczelnia.UsunPrzedmiot(w,k,p);
                         break;
                     }
@@ -398,13 +395,10 @@ namespace Projekt_I_P3
         }
         public void Statystyki()
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("Statystyki\n");
-            Console.ResetColor();
+            Header("Statystyki");
             Console.WriteLine($"Liczba przedmiotów: {uczelnia.LiczbaPrzedmiotow()}");
             Console.WriteLine($"Liczba studentów na uczelni: {uczelnia.LiczbaStudentow()}");
             Console.WriteLine($"\n\nLiczba studentów na kierunkach: \n{uczelnia.LiczbaStudentowKierunki()}");
-            //Console.WriteLine($"Student z najwyższą średnią: {uczelnia.StudenciZNajwyzszaSrednia(1)}");
             Console.WriteLine("\n[0]\tPowrót");
             uczelnia.RysujWykrs();
             switch (Console.ReadLine())

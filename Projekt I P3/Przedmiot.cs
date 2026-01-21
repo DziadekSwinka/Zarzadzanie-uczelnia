@@ -9,9 +9,6 @@ namespace Projekt_I_P3
     internal class Przedmiot
     {
         public string Nazwa;
-        public int Semestr;
-        public bool Egzamin;
-        public int ETCS;
 
         private static int LicznikPrzedmiotow;
         public int ID;
@@ -24,10 +21,6 @@ namespace Projekt_I_P3
         {
             string wynik="";
             wynik += Nazwa+" ";
-            wynik += Semestr+" ";
-            wynik += ETCS+" ";
-            if (Egzamin)
-                wynik += "Egzamin";
             return wynik;
         }
 
