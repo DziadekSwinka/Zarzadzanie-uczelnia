@@ -23,6 +23,26 @@ namespace Projekt_I_P3
             this.walidator = walidator; 
             this.komunikaty = komunikaty; 
         }
+        private (string, string) WK()
+        {
+            Console.Write("wydział: ");
+            string w = uczelnia.walidator.Wprowadz_Wydzial();
+            Console.Write("kierunrk: ");
+            string k = uczelnia.walidator.Wprowadz_Kierunek(w);
+            return (w, k);
+        }
+        private (string,string,string) WKG()
+        {
+            var (w,k) = WK();
+            string g = uczelnia.walidator.Wprowadz_Grupe(w,k);
+            return (w, k, g);
+        }
+        private (string,string,string) WKP()
+        {
+            var (w,k) = WK();
+            string p = uczelnia.walidator.Wprowadz_Przedmiot(w,k);
+            return (w, k, p);
+        }
         private void Header(string s)
         {
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -177,17 +197,14 @@ namespace Projekt_I_P3
             {
                 case "1":
                     {
-                        string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        string k = uczelnia.walidator.Wprowadz_Kierunek(w);
+                        var (w, k) = WK();
                         Console.Write(uczelnia.PokazStudentowKierunku(w, k));
                         Console.ReadKey();
                         break;
                     }
                 case "2":
                     {
-                        string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        string k = uczelnia.walidator.Wprowadz_Kierunek(w);
-                        string g = uczelnia.walidator.Wprowadz_Grupe(w, k);
+                        var (w, k, g) = WKG();
                         Console.Write(uczelnia.PokazStudentowGrupy(w,k,g));
                         Console.ReadKey();
                         break;
@@ -202,9 +219,7 @@ namespace Projekt_I_P3
                         DateOnly d = DateOnly.Parse(Console.ReadLine());
                         Console.Write("email: ");
                         string e = Console.ReadLine();
-                        string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        string k = uczelnia.walidator.Wprowadz_Kierunek(w);
-                        string g = uczelnia.walidator.Wprowadz_Grupe(w, k);
+                        var (w, k, g) = WKG();
                         Console.Write("semestr: ");                           
                         int s = Convert.ToInt32(Console.ReadLine());
    
@@ -218,9 +233,7 @@ namespace Projekt_I_P3
                         string i = Console.ReadLine();
                         Console.Write("nazwisko: ");
                         string n = Console.ReadLine();
-                        string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        string k = uczelnia.walidator.Wprowadz_Kierunek(w);
-                        string g = uczelnia.walidator.Wprowadz_Grupe(w, k);
+                        var (w, k, g) = WKG();
                         if (Potwierdz($"Czy napewno chcesz skreślić studenta {i} {n}?"))
                             uczelnia.SkreslStudenta(w,k,g,i,n);
                         break;
@@ -231,9 +244,7 @@ namespace Projekt_I_P3
                         string i = Console.ReadLine();
                         Console.Write("nazwisko: ");
                         string n = Console.ReadLine();
-                        string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        string k = uczelnia.walidator.Wprowadz_Kierunek(w);
-                        string g = uczelnia.walidator.Wprowadz_Grupe(w, k);
+                        var (w, k, g) = WKG();
                         Console.Write("\n\n");
                         Console.WriteLine("[1]\tDodaj ocenę");
                         Console.WriteLine("[2]\tDodaj ocenę");
@@ -304,8 +315,7 @@ namespace Projekt_I_P3
                 case "3":
                     {
                         Console.Clear();
-                        string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        string k = uczelnia.walidator.Wprowadz_Kierunek(w);
+                        var (w, k) = WK();
                         Console.WriteLine(uczelnia.PokazGrupyKierunku(w, k));
                         Console.ReadKey();
                         break;
@@ -314,8 +324,7 @@ namespace Projekt_I_P3
                     {
                         Console.Write("nazwa: ");
                         string g = Console.ReadLine();
-                        string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        string k = uczelnia.walidator.Wprowadz_Kierunek(w);
+                        var (w, k) = WK();
                         if(!uczelnia.walidator.Istnieje_Grupa(w,k,g))
                             uczelnia.DodajGrupe(w, k, g);
                         else komunikaty.Error_NazwaJuzZajeta();
@@ -325,8 +334,7 @@ namespace Projekt_I_P3
                     {
                         Console.Write("nazwa: ");
                         string n = Console.ReadLine();
-                        string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        string k = uczelnia.walidator.Wprowadz_Kierunek(w);
+                        var (w, k) = WK();
                         uczelnia.UsunGrupe(w, k, n);
                         break;
                     }
@@ -364,8 +372,7 @@ namespace Projekt_I_P3
                 case "3":
                     {
                         Console.Clear();
-                        string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        string k = uczelnia.walidator.Wprowadz_Kierunek(w);
+                        var (w, k) = WK();
                         Console.WriteLine(uczelnia.PokazPrzedmiotyKierunku(w,k));
                         Console.ReadKey();
                         break;
@@ -374,8 +381,7 @@ namespace Projekt_I_P3
                     {
                         Console.Write("przedmiot: ");
                         string p = Console.ReadLine();
-                        string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        string k = uczelnia.walidator.Wprowadz_Kierunek(w);
+                        var (w, k) = WK();
                         if(!uczelnia.walidator.Istnieje_Przedmiot(w,k,p))
                             uczelnia.DodajPrzedmiot(w,k,p);
                         else komunikaty.Error_NazwaJuzZajeta();
@@ -383,9 +389,7 @@ namespace Projekt_I_P3
                     }
                 case "5":
                     {
-                        string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        string k = uczelnia.walidator.Wprowadz_Kierunek(w);
-                        string p = uczelnia.walidator.Wprowadz_Przedmiot(w, k);
+                        var (w, k, p) = WKP();
                         if (Potwierdz($"Czy napewno chcesz usunąć {p} dla kierunku {k}?"))
                             uczelnia.UsunPrzedmiot(w,k,p);
                         break;
