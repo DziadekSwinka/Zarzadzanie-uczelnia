@@ -19,7 +19,7 @@ namespace Projekt_I_P3
             this.nazwa = nazwa;
             ID = licznikWydzialow++;
         }
-        public void dodajKierunek(string Nazwa,int LiczbaSem)
+        public void DodajKierunek(string Nazwa,int LiczbaSem)
         {
             Kierunki.Add(new Kierunek(Nazwa,LiczbaSem));
         }

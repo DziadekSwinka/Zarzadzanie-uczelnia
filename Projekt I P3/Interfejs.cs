@@ -77,8 +77,6 @@ namespace Projekt_I_P3
             } while (!T.TryParse(Console.ReadLine(),null , out v));
             return v;
         }
-
-
         public bool Update()
         {
             Console.Clear();

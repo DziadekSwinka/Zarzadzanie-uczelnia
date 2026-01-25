@@ -36,7 +36,7 @@ namespace Projekt_I_P3
         public void DodajKierunek(string Wydzial, string Kierunek, int LiczbaSem) 
         {
            GetWydzial(Wydzial)?
-                .dodajKierunek(Kierunek, LiczbaSem);
+                .DodajKierunek(Kierunek, LiczbaSem);
         }
         public void UsunKierunek(string Wydzial, string Kierunek)
         {
@@ -172,7 +172,7 @@ namespace Projekt_I_P3
         public string PokazStudenta(string Wydzial, string Kierunek, string Grupa, string Imie, string Nazwisko)
         {
             return (GetStudenta(Wydzial,Kierunek,Grupa,Imie,Nazwisko)
-                .pokazStudentaExtd()/*+PokazSredniaStudenta(Wydzial,Kierunek,Grupa,Imie,Nazwisko,Semestr)*/);
+                .PokazStudentaExtd()/*+PokazSredniaStudenta(Wydzial,Kierunek,Grupa,Imie,Nazwisko,Semestr)*/);
 
         }
         public void LiczbaStudentow(string Wydzial, string Kierunek, string Grupa)

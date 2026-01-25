@@ -74,7 +74,7 @@ namespace Projekt_I_P3
             if(semestr++==this.liczbaSemestrow)
                 AktywnyStudent=false;
         }
-        public string pokazStudenta()
+        public string PokazStudenta()
         {
             string wynik="";
             wynik += "imię: "+Imie+"\n";
@@ -83,10 +83,10 @@ namespace Projekt_I_P3
             wynik += "numer indeksu: "+NumerIndexu + "\n";
             return wynik;
         }
-        public string pokazStudentaExtd()
+        public string PokazStudentaExtd()
         {
             string wynik = "";
-            wynik += pokazStudenta();
+            wynik += PokazStudenta();
             wynik += "\noceny: \n";
             foreach (var o in Oceny)
             {
@@ -98,7 +98,7 @@ namespace Projekt_I_P3
             }
             return wynik;
         }
-        public string pokazOcenyStudenta()
+        public string PokazOcenyStudenta()
         {
             string wynik = "";
             foreach (Ocena ocena in Oceny)
