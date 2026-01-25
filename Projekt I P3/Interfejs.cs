@@ -34,9 +34,7 @@ namespace Projekt_I_P3
         }
         private (string, string) WK()
         {
-            Console.Write("wydział: ");
             string w = uczelnia.walidator.Wprowadz_Wydzial();
-            Console.Write("kierunek: ");
             string k = uczelnia.walidator.Wprowadz_Kierunek(w);
             return (w, k);
         }
