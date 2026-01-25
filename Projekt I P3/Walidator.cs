@@ -13,31 +13,53 @@ namespace Projekt_I_P3
         public Walidator(Uczelnia uczelnia) => this.uczelnia = uczelnia; 
 
         public bool SprawdzEmail(string email)
-        {
-            return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-        }
+            => Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
 
         public bool Istnieje_Wydzial(string wydzial) 
-            => uczelnia.Wydzialy.Any(w => w.nazwa.ToLower() == wydzial.ToLower());
+        {
+            wydzial = wydzial.Trim();
+
+            return uczelnia.Wydzialy.Any(w => w.nazwa.ToLower() == wydzial.ToLower());
+        }
 
         public bool Istnieje_Kierunek(string wydzial, string kierunek)
-            => uczelnia.Wydzialy
-                .FirstOrDefault(w => w.nazwa.ToLower() == wydzial.ToLower())?
-                .Kierunki.Any(k => k.nazwa.ToLower() == kierunek.ToLower()) ?? false;
+        {
+            wydzial = wydzial.Trim();
+            kierunek = kierunek.Trim();
+
+            return uczelnia.Wydzialy
+             .FirstOrDefault(w => w.nazwa.ToLower() == wydzial.ToLower())?
+             .Kierunki
+             .Any(k => k.nazwa.ToLower() == kierunek.ToLower()) ?? false;
+        }
 
         public bool Istnieje_Grupa(string wydzial, string kierunek, string grupa)
-            => uczelnia.Wydzialy
+        {
+            wydzial = wydzial.Trim();
+            kierunek = kierunek.Trim();
+            grupa = grupa.Trim();
+
+            return uczelnia.Wydzialy
                 .FirstOrDefault(w => w.nazwa.ToLower() == wydzial.ToLower())?
                 .Kierunki
                 .FirstOrDefault(k => k.nazwa.ToLower() == kierunek.ToLower())?
-                .Grupy.Any(g =>g.nazwa.ToLower() == grupa.ToLower()) ?? false;
-        
+                .Grupy
+                .Any(g => g.nazwa.ToLower() == grupa.ToLower()) ?? false;
+        }
+
         public bool Istnieje_Przedmiot(string wydzial, string kierunek, string przedmiot)
-            => uczelnia.Wydzialy
+        {
+            wydzial = wydzial.Trim();
+            kierunek = kierunek.Trim();
+            przedmiot = przedmiot.Trim();
+
+            return uczelnia.Wydzialy
                 .FirstOrDefault(w => w.nazwa.ToLower() == wydzial.ToLower())?
                 .Kierunki
                 .FirstOrDefault(k => k.nazwa.ToLower() == kierunek.ToLower())?
-                .Grupy.Any(p =>p.nazwa.ToLower() == przedmiot.ToLower()) ?? false;
+                .Przedmioty
+                .Any(p => p.Nazwa.ToLower() == przedmiot.ToLower()) ?? false;
+        }
 
 
         public string Wprowadz_Wydzial()
@@ -96,7 +118,7 @@ namespace Projekt_I_P3
                     .Grupy
                     .FirstOrDefault(g => g.nazwa.ToLower() == nazwa.ToLower());
 
-                if (kierunek == null)
+                if (grupa == null)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("BŁĘDNA NAZWA");
@@ -110,7 +132,7 @@ namespace Projekt_I_P3
         {
             while (true)
             {
-                Console.Write("kierunek: ");
+                Console.Write("przedmiot: ");
                 string? nazwa = Console.ReadLine();
 
                 var przedmiot = uczelnia.Wydzialy
@@ -120,7 +142,7 @@ namespace Projekt_I_P3
                     .Przedmioty
                     .FirstOrDefault(p => p.Nazwa.ToLower() == nazwa.ToLower());
 
-                if (kierunek == null)
+                if (przedmiot == null)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("BŁĘDNA NAZWA");

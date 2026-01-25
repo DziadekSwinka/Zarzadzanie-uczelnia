@@ -22,7 +22,7 @@ namespace Projekt_I_P3
                 .Kierunki.FirstOrDefault(k => k.nazwa == kierunek);
         private Grupa? GetGrupe(string wydzial,string kierunek,string grupa) =>
             GetKierunek(wydzial,kierunek)?
-                .Grupy.FirstOrDefault(g => g.nazwa == kierunek);
+                .Grupy.FirstOrDefault(g => g.nazwa == grupa);
         private Student? GetStudenta(string wydzial, string kierunek, string grupa, string imie, string nazwisko) {
             return GetGrupe(wydzial, kierunek, grupa)?
             .Studenci.FirstOrDefault(s =>s.Imie == imie && s.Nazwisko == nazwisko);
@@ -190,11 +190,11 @@ namespace Projekt_I_P3
             GetStudenta(Wydzial, Kierunek, Grupa, Imie, Nazwisko)?
                 .DodajOcene(Ocena,przedmiot,Data);
         }
-        public void PokazOceneStudentaZPrzedmiotu(string Wydzial, string Kierunek, string Grupa,string Imie,string Nazwisko, string przedmiot)
+        /*public void PokazOceneStudentaZPrzedmiotu(string Wydzial, string Kierunek, string Grupa,string Imie,string Nazwisko, string przedmiot)
         {
             GetStudenta(Wydzial, Kierunek, Grupa, Imie, Nazwisko)?
                 .PokazOcenyStudentaZPrzedmiotu(przedmiot);
-        }
+        }*/
         public void PokazSredniaStudenta(string Wydzial, string Kierunek, string Grupa,string Imie,string Nazwisko,int Semestr)
         {
             GetStudenta(Wydzial, Kierunek, Grupa, Imie, Nazwisko)?
@@ -205,7 +205,7 @@ namespace Projekt_I_P3
             GetStudenta(Wydzial, Kierunek, Grupa, Imie, Nazwisko)?
                 .ZmienOcene(IDoceny,NowaOcena);
         }
-        public void ZaliczSemetrStudenta(string Wydzial,string Kierunek, string Grupa,string Imie,string Nazwisko)
+        public void ZaliczSemestrStudenta(string Wydzial,string Kierunek, string Grupa,string Imie,string Nazwisko)
         {
             GetStudenta(Wydzial, Kierunek, Grupa, Imie, Nazwisko)?
                 .ZaliczSemestr();
@@ -248,7 +248,7 @@ namespace Projekt_I_P3
         {
             return s.Replace(" ", "\n");
         }
-        public void RysujWykrs()
+        public void RysujWykres()
         {
             double[] values= uczelnia.Wydzialy
                 .SelectMany(w => w.Kierunki)

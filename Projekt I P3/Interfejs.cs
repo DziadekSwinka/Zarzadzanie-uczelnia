@@ -5,6 +5,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Numerics;
 
 namespace Projekt_I_P3
 {
@@ -23,11 +24,19 @@ namespace Projekt_I_P3
             this.walidator = walidator; 
             this.komunikaty = komunikaty; 
         }
+        private (string,string) Osoba()
+        {
+            Console.Write("imię: ");
+            string i = Console.ReadLine();
+            Console.Write("nazwisko: ");
+            string n = Console.ReadLine();
+            return (i, n);
+        }
         private (string, string) WK()
         {
             Console.Write("wydział: ");
             string w = uczelnia.walidator.Wprowadz_Wydzial();
-            Console.Write("kierunrk: ");
+            Console.Write("kierunek: ");
             string k = uczelnia.walidator.Wprowadz_Kierunek(w);
             return (w, k);
         }
@@ -49,12 +58,28 @@ namespace Projekt_I_P3
             Console.WriteLine($"{s}\n");
             Console.ResetColor();
         }
+        private void PokazIZatrzymaj(string tekst)
+        {
+            Console.Clear();
+            Console.Write(tekst);
+            Console.ReadKey();
+        }
         private bool Potwierdz(string tresc)
         {
             Console.Write($"{tresc} [Y/N]: ");
             string o = Console.ReadLine()?.ToLower();
             return o == "y";
         }
+        private T WczytajLiczbe<T>(string etykieta)    where T : INumber<T>
+        {
+            T v;
+            do
+            {
+                Console.Write(etykieta);
+            } while (!T.TryParse(Console.ReadLine(),null , out v));
+            return v;
+        }
+
 
         public bool Update()
         {
@@ -96,7 +121,7 @@ namespace Projekt_I_P3
         }
         public void Wydzialy()
         {
-            Header("Wydzdiały uczelni");
+            Header("Wydziały uczelni");
             Console.WriteLine("[1]\tLista wydziałów");
             Console.WriteLine("[2]\tDodaj wydział");
             Console.WriteLine("[3]\tUsuń wydział");
@@ -107,9 +132,7 @@ namespace Projekt_I_P3
             {
                 case "1":
                     {
-                        Console.Clear();
-                        Console.Write(uczelnia.PokazWydzialy());
-                        Console.ReadKey();
+                        PokazIZatrzymaj(uczelnia.PokazWydzialy());
                         break;
                     }
                 case "2":
@@ -145,25 +168,20 @@ namespace Projekt_I_P3
             {
                 case "1":
                     {
-                        Console.Clear();
-                        Console.Write(uczelnia.PokazKierunkiNaWydzialach());
-                        Console.ReadKey();
+                        PokazIZatrzymaj(uczelnia.PokazKierunkiNaWydzialach());
                         break;
                     }
                 case "2":
-                    {
-                        Console.Clear();
+                    { 
                         string w = uczelnia.walidator.Wprowadz_Wydzial();
-                        Console.Write(uczelnia.PokazKierunkiWydzialu(w));
-                        Console.ReadKey();
+                        PokazIZatrzymaj(uczelnia.PokazKierunkiWydzialu(w));
                         break;
                     }
                 case "3": 
                     {
-                        Console.Write("kierunrk: ");
+                        Console.Write("kierunek: ");
                         string k = Console.ReadLine();
-                        Console.Write("liczba semestrów: ");
-                        int ls = Convert.ToInt32(Console.ReadLine());
+                        int ls = WczytajLiczbe<int>("liczba semestrów: ");
                         string w = uczelnia.walidator.Wprowadz_Wydzial();
                         if(!uczelnia.walidator.Istnieje_Kierunek(w,k))
                             uczelnia.DodajKierunek(w,k,ls);
@@ -198,30 +216,25 @@ namespace Projekt_I_P3
                 case "1":
                     {
                         var (w, k) = WK();
-                        Console.Write(uczelnia.PokazStudentowKierunku(w, k));
-                        Console.ReadKey();
+                        PokazIZatrzymaj(uczelnia.PokazStudentowKierunku(w, k));
+
                         break;
                     }
                 case "2":
                     {
                         var (w, k, g) = WKG();
-                        Console.Write(uczelnia.PokazStudentowGrupy(w,k,g));
-                        Console.ReadKey();
+                        PokazIZatrzymaj(uczelnia.PokazStudentowGrupy(w,k,g));
                         break;
                     }
                 case "3":
                     {
-                        Console.Write("imię: ");
-                        string i = Console.ReadLine();
-                        Console.Write("nazwisko: ");
-                        string n = Console.ReadLine();
+                        var (i, n) = Osoba();
                         Console.Write("data urodzenia [dd-mm-yyyy]: ");
                         DateOnly d = DateOnly.Parse(Console.ReadLine());
                         Console.Write("email: ");
                         string e = Console.ReadLine();
                         var (w, k, g) = WKG();
-                        Console.Write("semestr: ");                           
-                        int s = Convert.ToInt32(Console.ReadLine());
+                        int s = WczytajLiczbe<int>("semestr: ");
    
                         if(uczelnia.walidator.SprawdzEmail(e))
                             uczelnia.DodajStudenta(w,k,g,i,n,d,e,s);
@@ -229,10 +242,7 @@ namespace Projekt_I_P3
                     }
                 case "4":
                     {
-                        Console.Write("imię: ");
-                        string i = Console.ReadLine();
-                        Console.Write("nazwisko: ");
-                        string n = Console.ReadLine();
+                        var (i, n) = Osoba();
                         var (w, k, g) = WKG();
                         if (Potwierdz($"Czy napewno chcesz skreślić studenta {i} {n}?"))
                             uczelnia.SkreslStudenta(w,k,g,i,n);
@@ -240,10 +250,7 @@ namespace Projekt_I_P3
                     }
                 case "5":
                     {
-                        Console.Write("imię: ");
-                        string i = Console.ReadLine();
-                        Console.Write("nazwisko: ");
-                        string n = Console.ReadLine();
+                        var (i, n) = Osoba();
                         var (w, k, g) = WKG();
                         Console.Write("\n\n");
                         Console.WriteLine("[1]\tDodaj ocenę");
@@ -256,8 +263,7 @@ namespace Projekt_I_P3
                         switch(input)
                         {
                             case "1": {
-                                    Console.Write("ocena: ");
-                                    float o = float.Parse(Console.ReadLine());
+                                    float o = WczytajLiczbe<float>("nowa ocena: ");
                                     string p = uczelnia.walidator.Wprowadz_Przedmiot(w,k);
                                     uczelnia.DodajOcene(w,k,g,i,n,o,p, DateOnly.FromDateTime(DateTime.Today));
                                     Console.Write(uczelnia.PokazStudenta(w, k, g, i, n));
@@ -265,16 +271,14 @@ namespace Projekt_I_P3
                                 }
                             case "2":
                                 {
-                                    Console.Write("nowa ocena: ");
-                                    float o = float.Parse(Console.ReadLine());
-                                    Console.Write("ID oceny: ");
-                                    int id = Convert.ToInt32(Console.ReadLine());
+                                    float o = WczytajLiczbe<float>("nowa ocena: ");
+                                    int id = WczytajLiczbe<int>("ID oceny: ");
                                     uczelnia.ZmienOceneStudenta(w,k,g,i,n,o,id);
                                     break;
                                 }
                             case "3":
                                 {
-                                    uczelnia.ZaliczSemetrStudenta(w,k,g,i,n);
+                                    uczelnia.ZaliczSemestrStudenta(w,k,g,i,n);
                                     break;
                                 }
                             case "0": stan = Stan.MenuGlowne; break;
@@ -300,24 +304,18 @@ namespace Projekt_I_P3
             {
                 case "1":
                     {
-                        Console.Clear();
-                        Console.WriteLine(uczelnia.PokazGrupyNaKierunkach());
-                        Console.ReadKey();
+                        PokazIZatrzymaj(uczelnia.PokazGrupyNaKierunkach());
                         break;
                     }
                 case "2":
                     {
-                        Console.Clear();
-                        Console.WriteLine(uczelnia.PokazWszystkieGrupy());
-                        Console.ReadKey();
+                        PokazIZatrzymaj(uczelnia.PokazWszystkieGrupy());
                         break;
                     }
                 case "3":
                     {
-                        Console.Clear();
                         var (w, k) = WK();
-                        Console.WriteLine(uczelnia.PokazGrupyKierunku(w, k));
-                        Console.ReadKey();
+                        PokazIZatrzymaj(uczelnia.PokazGrupyKierunku(w, k));
                         break;
                     }
                 case "4":
@@ -357,24 +355,18 @@ namespace Projekt_I_P3
             {
                 case "1":
                     {
-                        Console.Clear();
-                        Console.WriteLine(uczelnia.PokazPrzedmiotyNaKierunkach());
-                        Console.ReadKey();
+                        PokazIZatrzymaj(uczelnia.PokazPrzedmiotyNaKierunkach());
                         break;
                     }
                 case "2":
                     {
-                        Console.Clear();
-                        Console.WriteLine(uczelnia.PokazWszystkiePrzedmioty());
-                        Console.ReadKey();
+                        PokazIZatrzymaj(uczelnia.PokazWszystkiePrzedmioty());
                         break;
                     }                
                 case "3":
                     {
-                        Console.Clear();
                         var (w, k) = WK();
-                        Console.WriteLine(uczelnia.PokazPrzedmiotyKierunku(w,k));
-                        Console.ReadKey();
+                        PokazIZatrzymaj(uczelnia.PokazPrzedmiotyKierunku(w,k));
                         break;
                     }
                 case "4":
@@ -404,7 +396,7 @@ namespace Projekt_I_P3
             Console.WriteLine($"Liczba studentów na uczelni: {uczelnia.LiczbaStudentow()}");
             Console.WriteLine($"\n\nLiczba studentów na kierunkach: \n{uczelnia.LiczbaStudentowKierunki()}");
             Console.WriteLine("\n[0]\tPowrót");
-            uczelnia.RysujWykrs();
+            uczelnia.RysujWykres();
             switch (Console.ReadLine())
             {
                 case "0": stan = Stan.MenuGlowne; break;
