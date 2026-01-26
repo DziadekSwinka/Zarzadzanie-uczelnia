@@ -50,7 +50,7 @@ namespace Projekt_I_P3
             string wynik = "";
             foreach (Student student in Studenci)
             {
-                wynik += student.pokazStudenta()+"\n";
+                wynik += student.PokazStudenta()+"\n";
             }
             return wynik;
         }
